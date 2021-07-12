@@ -1,2 +1,7 @@
 <h1>hi</h1>
 
+<% if user_signed_in? %>
+	  <h1>User is LOGGED IN! :)</h1>
+<% else %>
+	  <h1>User is NOT logged in! :(</h1>
+<% end %>
