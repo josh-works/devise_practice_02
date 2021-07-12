@@ -1,5 +1,9 @@
 <h1>hi</h1>
 
+<%= link_to "sign in", new_user_session %>
+
+<%= link_to "log out", destroy_user_session %>
+
 <% if user_signed_in? %>
 	  <h1>User is LOGGED IN! :)</h1>
 <% else %>
