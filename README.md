@@ -141,3 +141,46 @@ Add the app id and secret from your fancy new github app
 
 
 
+
+Make some updates, now:
+
+```
+Could not authenticate you from GitHub because "Authenticity error".
+```
+
+### `Could not authenticate you from GitHub because "Authenticity error".`
+
+Looking at the logs:
+
+```
+Started POST "/users/auth/github" for 127.0.0.1 at 2021-07-12 21:25:39 -0600
+D, [2021-07-12T21:25:39.796334 #89500] DEBUG -- omniauth: (github) Request phase initiated.
+W, [2021-07-12T21:25:39.797574 #89500]  WARN -- omniauth: Attack prevented by OmniAuth::AuthenticityTokenProtection
+E, [2021-07-12T21:25:39.798526 #89500] ERROR -- omniauth: (github) Authentication failure! authenticity_error: OmniAuth::AuthenticityError, Forbidden
+Processing by Devise::OmniauthCallbacksController#failure as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]"}
+Redirected to http://localhost:3000/users/sign_in
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms | Allocations: 364)
+```
+
+Read this issue: https://github.com/heartcombo/devise/issues/5236
+
+Toprated "fix" didn't: https://github.com/heartcombo/devise/issues/5236#issuecomment-766458987
+
+The fix is:
+
+`gem 'omniauth-rails_csrf_protection'` and bundle. 
+
+Now it works!
+
+Kinda. I get an "authorize this app" page from Github, I have to enter my password, and then... bam:
+
+![not working](/public/images/2021-07-13at4.36PM.jpg)
+
+Getting close. I'd uncommented that line earlier, idly, just on a whim, and but it was all too broken to cause me pain when I'd originally made the change.
+
+Comment that line back out...
+
+#### Resources
+
+- [https://stackoverflow.com/questions/59560017/how-can-i-solve-the-error-not-found-authentication-passthru-for-omniauth-git](https://stackoverflow.com/questions/59560017/how-can-i-solve-the-error-not-found-authentication-passthru-for-omniauth-git)
